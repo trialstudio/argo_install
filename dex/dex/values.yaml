@@ -40,4 +40,4 @@ dex:
     tls:
       - hosts:
           - dex.trial.studio
-        secretName: dex-trial-studio-tls
+        secretName: dex-tls
