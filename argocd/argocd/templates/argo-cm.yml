@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  dex.config: |
+    connectors:
+      - type: github
+        name: GitHub
+        id: github
+        config:
+          clientID: $argocd-github-credentials:dex.github.clientID
+          clientSecret: $argocd-github-credentials:dex.github.clientSecret
+          orgs:
+            - name: trialstudio
+          teamNameField: slug
+  url: https://argocd.trial.studio
