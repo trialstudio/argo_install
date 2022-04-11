@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argo_install
+  name: argo-install
   namespace: argocd
 spec:
   generators:
@@ -14,6 +14,8 @@ spec:
     metadata:
       name: '{{ path.basename }}'
       namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       project: default
       destination:
@@ -37,6 +39,7 @@ spec:
           prune: true
         syncOptions:
           - FailOnSharedResource=true
+          - CreateNamespace=true
         retry:
           backoff:
             duration: 30s
