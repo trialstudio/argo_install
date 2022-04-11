@@ -1,0 +1,3 @@
+metrics-server:
+  podAnnotations:
+    linkerd.io/inject: enabled
