@@ -1,0 +1,43 @@
+dex:
+  config:
+    issuer: https://dex.trial.studio
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+    connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: $GITHUB_CLIENT_ID
+          clientSecret: $GITHUB_CLIENT_SECRET
+          redirectURI: https://dex.trial.studio/callback
+          orgs:
+            - name: trialstudio
+          teamNameField: slug
+    oauth2:
+      skipApprovalScreen: true
+    staticClients:
+      - id: kubelogin
+        redirectURIs:
+          - 'http://localhost:8000'
+        name: kubelogin
+        secret: da6fb830-b998-11ec-9654-ef7a80acd81a
+
+  envFrom:
+    - secretRef:
+        name: github-credentials
+
+  ingress:
+    enabled: true
+    className: nginx
+    hosts:
+      - host: dex.trial.studio
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - dex.trial.studio
+        secretName: dex-trial-studio-tls
