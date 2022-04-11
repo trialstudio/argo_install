@@ -27,3 +27,6 @@ dependencies:
   - name: cert-manager
     version: 1.7.2
     repository: https://charts.jetstack.io
+
+# to uninstall completely, also delete the crds
+# $ kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.0/cert-manager.crds.yaml
