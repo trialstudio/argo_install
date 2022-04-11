@@ -1,3 +1,6 @@
 metrics-server:
   podAnnotations:
     linkerd.io/inject: enabled
+
+  args:
+    - --kubelet-preferred-address-types=InternalIP
