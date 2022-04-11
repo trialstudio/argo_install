@@ -13,29 +13,3 @@ server:
   autoscaling:
     enabled: true
     minReplicas: 2
-
-  admin.enabled: "false"
-
-  config:
-    url: https://argocd.trial.studio
-    dex.config: |
-      connectors:
-        - type: github
-          name: GitHub
-          id: github
-          config:
-            clientID: $dex.github.clientID
-            clientSecret: $dex.github.clientSecret
-            orgs:
-              - name: trialstudio
-            teamNameField: slug
-
-
-  rbacConfig:
-    policy.default: role:readonly
-    policy.csv: |
-      g, trialstudio:site-reliability-engineers, role:admin
-
-#configs:
-#  secret:
-#    argocdServerAdminPassword: $2a$10$9WZKi//fORJMyvxZ.iUUNu9y3wkjzR0SNB7nTGcK//Q5vSWZ5at.S
