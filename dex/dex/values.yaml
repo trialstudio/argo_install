@@ -29,9 +29,14 @@ dex:
     - secretRef:
         name: github-credentials
 
+  podAnnotations:
+    linkerd.io/inject: enabled
+
   ingress:
     enabled: true
     className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/service-upstream: "true"
     hosts:
       - host: dex.trial.studio
         paths:
