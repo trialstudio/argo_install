@@ -16,25 +16,25 @@ server:
 
   admin.enabled: "false"
 
-#  config:
-#    url: https://argocd.trial.studio
-#    dex.config: |
-#      connectors:
-#        - type: github
-#          name: GitHub
-#          id: github
-#          config:
-#            clientID: $dex.github.clientID
-#            clientSecret: $dex.github.clientSecret
-#            orgs:
-#              - name: trialstudio
-#            teamNameField: slug
+  config:
+    url: https://argocd.trial.studio
+    dex.config: |
+      connectors:
+        - type: github
+          name: GitHub
+          id: github
+          config:
+            clientID: $dex.github.clientID
+            clientSecret: $dex.github.clientSecret
+            orgs:
+              - name: trialstudio
+            teamNameField: slug
 
 
-#  rbacConfig:
-#    policy.default: role:readonly
-#    policy.csv: |
-#      g, trialstudio:site-reliability-engineers, role:admin
+  rbacConfig:
+    policy.default: role:readonly
+    policy.csv: |
+      g, trialstudio:site-reliability-engineers, role:admin
 
 #configs:
 #  secret:
