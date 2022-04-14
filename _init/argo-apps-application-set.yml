@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argo-apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:trialstudio/argo_apps.git
+        revision: HEAD
+        directories:
+          - path: "*/*"
+  template:
+    metadata:
+      name: '{{ path.basename }}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ path[0] }}'
+      source:
+        repoURL: git@github.com:trialstudio/argo_apps.git
+        targetRevision: HEAD
+        path: '{{ path }}'
+      ignoreDifferences:
+        - kind: Certificate
+          group: cert-manager.io
+          jqPathExpressions:
+            - .spec.duration
+            - .spec.isCA
+            - .spec.renewBefore
+      syncPolicy:
+        automated:
+          selfHeal: true
+          allowEmpty: true
+          prune: true
+        syncOptions:
+          - FailOnSharedResource=true
+          - CreateNamespace=true
+        retry:
+          backoff:
+            duration: 30s
+            factor: 2
+            maxDuration: 3m0s
+          limit: 3
