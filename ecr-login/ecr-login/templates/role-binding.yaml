@@ -1,0 +1,14 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "ecr-login.fullname" . }}
+  labels:
+    {{- include "ecr-login.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: ecr-pull
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: ecr-pull
+  apiGroup: ""
