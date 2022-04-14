@@ -6,9 +6,9 @@ metadata:
     {{- include "ecr-login.labels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    name: ecr-pull
+    name: {{ include "ecr-login.fullname" . }}
     apiGroup: ""
 roleRef:
   kind: Role
-  name: ecr-pull
+  name: {{ include "ecr-login.fullname" . }}
   apiGroup: ""
