@@ -14,7 +14,7 @@ spec:
         metadata:
           name: {{ include "ecr-login.fullname" . }}
           labels:
-            {{- include "ecr-login.selectorLabels" . | nindent 4 }}
+            {{- include "ecr-login.selectorLabels" . | nindent 12 }}
         spec:
           restartPolicy: OnFailure
           serviceAccountName: {{ include "ecr-login.fullname" . }}
