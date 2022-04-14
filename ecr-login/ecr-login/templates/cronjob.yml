@@ -23,7 +23,7 @@ spec:
               image: ibacangan/awscli-kubectl:0.1.0
               envFrom:
                 - secretRef:
-                    name: {{ include "ecr-login.fullname" . }}
+                    name: aws-iam-ecr-pull
               command:
                 - /bin/sh
                 - -c
