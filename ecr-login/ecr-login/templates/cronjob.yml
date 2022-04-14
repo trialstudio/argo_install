@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "ecr-login.labels" . | nindent 4 }}
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "* */5 * * *"
   jobTemplate:
     metadata:
       name: {{ include "ecr-login.fullname" . }}
