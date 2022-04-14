@@ -1,7 +1,6 @@
 FROM alpine
 
-RUN apk --no-cache add jq curl aws-cli \
-    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+RUN apk --no-cache add jq aws-cli \
+    &&  wget "https://dl.k8s.io/release/$(wget https://dl.k8s.io/release/stable.txt && cat stable.txt)/bin/linux/amd64/kubectl" \
     && chmod +x kubectl \
     && mv kubectl /usr/local/bin
-

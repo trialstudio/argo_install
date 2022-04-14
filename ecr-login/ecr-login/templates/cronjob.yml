@@ -20,7 +20,7 @@ spec:
           serviceAccountName: {{ include "ecr-login.fullname" . }}
           containers:
             - name: awscli-kubectl
-              image: ibacangan/awscli-kubectl:0.1.0
+              image: ibacangan/awscli-kubectl:0.2.0
               envFrom:
                 - secretRef:
                     name: aws-iam-ecr-pull
