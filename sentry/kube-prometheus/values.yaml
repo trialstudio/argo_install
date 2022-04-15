@@ -9,5 +9,6 @@ kube-prometheus-stack:
             - grafana.trial.studio
       hosts:
         - grafana.trial.studio
+      ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
