@@ -32,6 +32,10 @@ spec:
             - .spec.duration
             - .spec.isCA
             - .spec.renewBefore
+        - kind: Secret
+          group: ""
+          jqPathExpressions:
+            - ".data.\".dockerconfigjson\""
       syncPolicy:
         automated:
           selfHeal: true
