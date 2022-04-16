@@ -37,6 +37,7 @@ dex:
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/service-upstream: "true"
+      cert-manager.io/cluster-issuer: letsencrypt
     hosts:
       - host: dex.trial.studio
         paths:
