@@ -17,4 +17,4 @@ data:
           orgs:
             - name: trialstudio
           teamNameField: slug
-  url: https://argocd.trial.studio
+  url: https://argo-cd.trial.studio
