@@ -1,0 +1,10 @@
+kube-prometheus-stack:
+  kubeControllerManager:
+    enabled: false
+  kubeProxy:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  prometheus:
+    thanosService:
+      enabled: true
