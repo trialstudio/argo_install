@@ -1,3 +1,75 @@
 promtail:
   config:
-    lokiAddress: http://loki:3100/loki/api/v1/push
+    lokiAddress: http://{{ .Release.Name }}-loki-simple-scalable-write:3100/loki/api/v1/push
+
+loki-simple-scalable:
+  loki:
+    config: |
+      auth_enabled: false
+
+      server:
+        http_listen_port: 3100
+  
+      memberlist:
+        join_members:
+          - {{ include "loki.fullname" . }}-memberlist
+            
+      schema_config:
+        configs:
+          - from: 2022-01-01
+            store: boltdb-shipper
+            object_store: s3
+            schema: v11
+            index:
+              prefix: loki_index_
+              period: 24h
+      
+      storage_config:
+        aws:
+          bucketnames: loki
+          s3: http://minio.openebs:9000
+          s3forcepathstyle: true
+          access_key_id: lokiAccess
+          secret_access_key: lokiSecret
+          insecure: true
+
+        boltdb_shipper:
+          active_index_directory: /var/loki/index
+          shared_store: s3
+          cache_location: /var/loki/boltdb-cache
+      
+      limits_config:
+        enforce_metric_name: false
+        reject_old_samples: true
+        reject_old_samples_max_age: 168h
+        max_cache_freshness_per_query: 10m
+        retention_period: 24h
+      
+      ruler:
+        storage:
+          type: s3
+          s3:
+            bucketnames: ruler
+            s3: http://minio.openebs:9000
+            s3forcepathstyle: true
+            access_key_id: lokiAccess
+            secret_access_key: lokiSecret
+            insecure: true
+      
+      common:
+        path_prefix: /var/loki
+        replication_factor: 1
+
+  write:
+    extraArgs:
+      - -log-config-reverse-order
+    persistence:
+      storageClass: openebs-hostpath
+      size: 10Gi
+
+  read:
+    extraArgs:
+      - -log-config-reverse-order
+    persistence:
+      storageClass: openebs-hostpath
+      size: 10Gi
