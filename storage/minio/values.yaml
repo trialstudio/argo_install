@@ -1,0 +1,13 @@
+minio:
+  mode: standalone
+  rootUser: rootUser
+  rootPassword: rootPass123
+
+  persistence:
+#    size: 10Gi
+    storageClass: openebs-hostpath
+#    volumeName: minio-hostpath
+
+  resources:
+    requests:
+      memory: 1Gi
