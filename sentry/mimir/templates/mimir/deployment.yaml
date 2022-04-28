@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "grafana-mimir.fullname" . }}
+  labels:
+    {{- include "grafana-mimir.labels" . | nindent 4 }}
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      {{- include "grafana-mimir.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- toYaml .Values.mimir.podAnnotations | nindent 8 }}
+      labels:
+        {{- include "grafana-mimir.selectorLabels" . | nindent 8 }}
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: node
+          whenUnsatisfiable: ScheduleAnyway
+      securityContext:
+        {{- toYaml .Values.mimir.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Values.agent.image.name | replace "/" "-" }}
+          securityContext:
+            {{- toYaml .Values.mimir.securityContext | nindent 12 }}
+          image: {{ .Values.mimir.image.name }}:{{ .Values.mimir.image.version }}
+          imagePullPolicy: {{ .Values.mimir.image.imagePullPolicy }}
+          args:
+            - -config.file=/etc/mimir/config.yml
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: http-memberlist
+              containerPort: 7946
+              protocol: TCP
+            - name: grpc
+              containerPort: 9095
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+          resources:
+            {{- toYaml .Values.agent.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /etc/mimir
+              name: config
+            - mountPath: /tmp/tsdb
+              subPath: tsdb
+              name: tmp
+            - mountPath: /tmp/tsdb-sync
+              subPath: tsdb-sync
+              name: tmp
+            - mountPath: /tmp/compactor
+              subPath: compactor
+              name: tmp
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "grafana-mimir.fullname" . }}
+        - name: tmp
+          emptyDir:
+            {}

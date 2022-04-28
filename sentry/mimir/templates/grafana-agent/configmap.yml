@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "grafana-agent.fullname" . }}
+data:
+  config.yml: |
+    server:
+      log_level: debug
+      http_listen_address: 0.0.0.0
+
+    metrics:
+      wal_directory: /tmp/wal
+      global:
+        scrape_interval: 15s
+        remote_write:
+          - url: http://{{ include "grafana-mimir.fullname" . }}/api/v1/push
+
+      configs:
+        - name: agent
+          scrape_configs:
+            - job_name: mimir-agent
+              static_configs:
+                - targets: ["127.0.0.1:12345"]
+            - job_name: mimir
+              kubernetes_sd_configs:
+                - role: pod
+                  namespaces:
+                    own_namespace: true
+                  selectors:
+                    - role: pod
+                      label: app.kubernetes.io/name={{ include "grafana-mimir.name" . }}
+              relabel_configs:
+                - action: labelmap
+                  regex: __meta_kubernetes_pod_label_(.+)
+                - action: keep
+                  source_labels: [__meta_kubernetes_pod_container_port_name]
+                  regex: http
+                - source_labels: [__meta_kubernetes_namespace]
+                  action: replace
+                  target_label: namespace
+                - source_labels: [__meta_kubernetes_pod_name]
+                  action: replace
+                  target_label: pod
+
+
+{{/*__meta_kubernetes_namespace: The namespace of the pod object.*/}}
+{{/*__meta_kubernetes_pod_name: The name of the pod object.*/}}
+{{/*__meta_kubernetes_pod_ip: The pod IP of the pod object.*/}}
+{{/*__meta_kubernetes_pod_label_<labelname>: Each label from the pod object.*/}}
+{{/*__meta_kubernetes_pod_labelpresent_<labelname>: truefor each label from the pod object.*/}}
+{{/*__meta_kubernetes_pod_annotation_<annotationname>: Each annotation from the pod object.*/}}
+{{/*__meta_kubernetes_pod_annotationpresent_<annotationname>: true for each annotation from the pod object.*/}}
+{{/*__meta_kubernetes_pod_container_init: true if the container is an InitContainer*/}}
+{{/*__meta_kubernetes_pod_container_name: Name of the container the target address points to.*/}}
+{{/*__meta_kubernetes_pod_container_port_name: Name of the container port.*/}}
+{{/*__meta_kubernetes_pod_container_port_number: Number of the container port.*/}}
+{{/*__meta_kubernetes_pod_container_port_protocol: Protocol of the container port.*/}}
+{{/*__meta_kubernetes_pod_ready: Set to true or false for the pod's ready state.*/}}
+{{/*__meta_kubernetes_pod_phase: Set to Pending, Running, Succeeded, Failed or Unknown in the lifecycle.*/}}
+{{/*__meta_kubernetes_pod_node_name: The name of the node the pod is scheduled onto.*/}}
+{{/*__meta_kubernetes_pod_host_ip: The current host IP of the pod object.*/}}
+{{/*__meta_kubernetes_pod_uid: The UID of the pod object.*/}}
+{{/*__meta_kubernetes_pod_controller_kind: Object kind of the pod controller.*/}}
+{{/*__meta_kubernetes_pod_controller_name: Name of the pod controller.*/}}

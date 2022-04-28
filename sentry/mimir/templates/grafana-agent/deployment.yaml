@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "grafana-agent.fullname" . }}
+  labels:
+    {{- include "grafana-agent.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "grafana-agent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- toYaml .Values.agent.podAnnotations | nindent 8 }}
+      labels:
+        {{- include "grafana-agent.selectorLabels" . | nindent 8 }}
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: node
+          whenUnsatisfiable: ScheduleAnyway
+      securityContext:
+        {{- toYaml .Values.agent.podSecurityContext | nindent 8 }}
+      serviceAccountName: {{ include "grafana-agent.fullname" . }}
+      containers:
+        - name: {{ .Values.agent.image.name | replace "/" "-" }}
+          securityContext:
+            {{- toYaml .Values.agent.securityContext | nindent 12 }}
+          image: {{ .Values.agent.image.name }}:{{ .Values.agent.image.version }}
+          imagePullPolicy: {{ .Values.agent.image.imagePullPolicy }}
+          args:
+            - -config.file=/etc/agent/config.yml
+          ports:
+            - name: http
+              containerPort: 12345
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+          resources:
+            {{- toYaml .Values.agent.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /etc/agent
+              name: config
+            - mountPath: /tmp/wal
+              name: wal
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "grafana-agent.fullname" . }}
+        - name: wal
+          emptyDir:
+            {}

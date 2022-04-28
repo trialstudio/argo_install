@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "grafana-mimir.fullname" . }}
+  labels:
+    {{- include "grafana-mimir.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 9095
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    {{- include "grafana-mimir.selectorLabels" . | nindent 4 }}
