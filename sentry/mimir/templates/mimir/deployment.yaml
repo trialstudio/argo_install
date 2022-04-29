@@ -5,6 +5,11 @@ metadata:
   labels:
     {{- include "grafana-mimir.labels" . | nindent 4 }}
 spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  minReadySeconds: 120
   replicas: 3
   selector:
     matchLabels:
@@ -23,7 +28,7 @@ spec:
       securityContext:
         {{- toYaml .Values.mimir.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Values.agent.image.name | replace "/" "-" }}
+        - name: {{ .Values.mimir.image.name | replace "/" "-" }}
           securityContext:
             {{- toYaml .Values.mimir.securityContext | nindent 12 }}
           image: {{ .Values.mimir.image.name }}:{{ .Values.mimir.image.version }}
@@ -49,7 +54,7 @@ spec:
               path: /ready
               port: http
           resources:
-            {{- toYaml .Values.agent.resources | nindent 12 }}
+            {{- toYaml .Values.mimir.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /etc/mimir
               name: config
