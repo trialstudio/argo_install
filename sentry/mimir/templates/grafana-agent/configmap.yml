@@ -5,7 +5,6 @@ metadata:
 data:
   config.yml: |
     server:
-      log_level: debug
       http_listen_address: 0.0.0.0
 
     metrics:
