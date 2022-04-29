@@ -13,6 +13,8 @@ data:
         scrape_interval: 15s
         remote_write:
           - url: http://{{ include "grafana-mimir.fullname" . }}/api/v1/push
+        external_labels:
+          cluster: local
 
       configs:
         - name: agent
@@ -20,7 +22,7 @@ data:
             - job_name: mimir-agent
               static_configs:
                 - targets: ["127.0.0.1:12345"]
-            - job_name: mimir
+            - job_name: {{ .Release.Namespace }}/mimir
               kubernetes_sd_configs:
                 - role: pod
                   namespaces:
@@ -29,8 +31,6 @@ data:
                     - role: pod
                       label: app.kubernetes.io/name={{ include "grafana-mimir.name" . }}
               relabel_configs:
-                - action: labelmap
-                  regex: __meta_kubernetes_pod_label_(.+)
                 - action: keep
                   source_labels: [__meta_kubernetes_pod_container_port_name]
                   regex: http
