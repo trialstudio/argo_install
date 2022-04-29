@@ -8,3 +8,6 @@ kube-prometheus-stack:
   prometheus:
     thanosService:
       enabled: true
+    prometheusSpec:
+      remoteWrite:
+        - url: http://mimir-grafana-mimir/api/v1/push
