@@ -11,3 +11,7 @@ kube-prometheus-stack:
     prometheusSpec:
       remoteWrite:
         - url: http://mimir-grafana-mimir/api/v1/push
+
+  grafana:
+    enabled: false
+    forceDeployDashboards: true

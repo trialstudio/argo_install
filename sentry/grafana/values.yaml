@@ -1,4 +1,6 @@
 grafana:
+  adminPassword: admin
+
   rbac:
     pspEnabled: false
     namespaced: true
@@ -11,7 +13,6 @@ grafana:
         type: prometheus
         url: http://mimir-grafana-mimir/prometheus
         access: proxy
-        isDefault: true
 
   dashboardProviders:
     dashboardproviders.yaml:
@@ -25,6 +26,16 @@ grafana:
         editable: true
         options:
           path: /var/lib/grafana/dashboards/default
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+    datasources:
+      enabled: true
+      label: grafana_datasource
+      labelValue: "1"
 
   dashboards:
     default:
