@@ -27,7 +27,7 @@ loki-simple-scalable:
       storage_config:
         aws:
           bucketnames: loki-data
-          s3: http://minio.openebs:9000
+          s3: http://minio.storage:9000
           s3forcepathstyle: true
           access_key_id: lokiAccess
           secret_access_key: lokiSecret
@@ -50,7 +50,7 @@ loki-simple-scalable:
           type: s3
           s3:
             bucketnames: loki-ruler
-            s3: http://minio.openebs:9000
+            s3: http://minio.storage:9000
             s3forcepathstyle: true
             access_key_id: lokiAccess
             secret_access_key: lokiSecret
@@ -65,7 +65,7 @@ loki-simple-scalable:
     extraArgs:
       - -log-config-reverse-order
     persistence:
-      storageClass: openebs-hostpath
+      storageClass: storage-hostpath
       size: 10Gi
 
   read:
@@ -73,5 +73,5 @@ loki-simple-scalable:
     extraArgs:
       - -log-config-reverse-order
     persistence:
-      storageClass: openebs-hostpath
+      storageClass: storage-hostpath
       size: 10Gi
