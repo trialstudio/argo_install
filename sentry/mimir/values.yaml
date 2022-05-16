@@ -20,7 +20,7 @@ mimir:
 agent:
   image:
     name: grafana/agent
-    version: v0.24.1
+    version: v0.24.2
     imagePullPolicy: IfNotPresent
 
   resources:

@@ -1,6 +1,12 @@
 grafana:
   adminPassword: admin
 
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.trial.studio
+
   rbac:
     pspEnabled: false
     namespaced: true
