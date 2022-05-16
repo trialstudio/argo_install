@@ -61,6 +61,7 @@ loki-simple-scalable:
         replication_factor: 1
 
   write:
+    replicas: 1
     extraArgs:
       - -log-config-reverse-order
     persistence:
@@ -68,6 +69,7 @@ loki-simple-scalable:
       size: 10Gi
 
   read:
+    replicas: 1
     extraArgs:
       - -log-config-reverse-order
     persistence:
