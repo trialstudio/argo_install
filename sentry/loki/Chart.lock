@@ -1,9 +1,0 @@
-dependencies:
-- name: loki-simple-scalable
-  repository: https://grafana.github.io/helm-charts
-  version: 0.4.0
-- name: promtail
-  repository: https://grafana.github.io/helm-charts
-  version: 4.2.0
-digest: sha256:470e7dbe44af01b1546bf553c9f41b0eb45d73303784787f081d45fc5d9a90a5
-generated: "2022-04-24T20:40:49.116369694+08:00"
