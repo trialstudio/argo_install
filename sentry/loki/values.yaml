@@ -68,6 +68,9 @@ loki-simple-scalable:
       storageClass: storage-hostpath
       size: 10Gi
 
+  gateway: 
+    replicas: 1
+
   read:
     replicas: 1
     extraArgs:
