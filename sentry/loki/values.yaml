@@ -1,6 +1,6 @@
 promtail:
   config:
-    lokiAddress: http://{{ .Release.Name }}-loki-simple-scalable-write:3100/loki/api/v1/push
+    lokiAddress: http://loki-write:3100/loki/api/v1/push
 
 loki-simple-scalable:
   loki:
