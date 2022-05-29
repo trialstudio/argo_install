@@ -47,7 +47,7 @@ spec:
                     name: ecr-login-secret
                     annotations:
                       replicator.v1.mittwald.de/replication-allowed: "true"
-                      replicator.v1.mittwald.de/replication-allowed-namespaces: "test.*"
+                      replicator.v1.mittwald.de/replication-allowed-namespaces: "cicd,app-*"
                   type: kubernetes.io/dockerconfigjson
                   data:
                     .dockerconfigjson: ${DOCKER_CONFIG}

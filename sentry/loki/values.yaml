@@ -65,7 +65,7 @@ loki-simple-scalable:
     extraArgs:
       - -log-config-reverse-order
     persistence:
-      storageClass: storage-hostpath
+      storageClass: openebs-hostpath
       size: 10Gi
 
   gateway: 
@@ -76,5 +76,5 @@ loki-simple-scalable:
     extraArgs:
       - -log-config-reverse-order
     persistence:
-      storageClass: storage-hostpath
+      storageClass: openebs-hostpath
       size: 10Gi
