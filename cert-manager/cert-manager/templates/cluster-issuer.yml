@@ -13,7 +13,7 @@ spec:
           route53:
             region: us-east-2
             hostedZoneID: Z06285332QCWSWF1RDQBK
-            accessKeyID: AKIA3QBWGPBXGQEVKV7N
+            accessKeyID: AKIA3QBWGPBXDTI43DJZ
             secretAccessKeySecretRef:
               name: route53-credentials
-              key: AKIA3QBWGPBXGQEVKV7N
+              key: AKIA3QBWGPBXDTI43DJZ
