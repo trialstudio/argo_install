@@ -1,8 +1,7 @@
 mimir:
   image:
     name: grafana/mimir
-    version: 2.0.0
-    imagePullPolicy: IfNotPresent
+    version: 2.1.0
 
   resources:
     limits:
@@ -20,8 +19,7 @@ mimir:
 agent:
   image:
     name: grafana/agent
-    version: v0.24.2
-    imagePullPolicy: IfNotPresent
+    version: v0.25.1
 
   resources:
     limits:

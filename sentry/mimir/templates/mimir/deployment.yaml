@@ -32,7 +32,7 @@ spec:
           securityContext:
             {{- toYaml .Values.mimir.securityContext | nindent 12 }}
           image: {{ .Values.mimir.image.name }}:{{ .Values.mimir.image.version }}
-          imagePullPolicy: {{ .Values.mimir.image.imagePullPolicy }}
+          imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/mimir/config.yml
           ports:

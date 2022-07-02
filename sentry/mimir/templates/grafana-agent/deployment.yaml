@@ -28,7 +28,7 @@ spec:
           securityContext:
             {{- toYaml .Values.agent.securityContext | nindent 12 }}
           image: {{ .Values.agent.image.name }}:{{ .Values.agent.image.version }}
-          imagePullPolicy: {{ .Values.agent.image.imagePullPolicy }}
+          imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/agent/config.yml
           ports:
