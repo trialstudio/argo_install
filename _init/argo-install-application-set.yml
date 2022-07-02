@@ -34,9 +34,9 @@ spec:
             - .spec.renewBefore
       syncPolicy:
         automated:
-          selfHeal: true
+          selfHeal: false
           allowEmpty: true
-          prune: true
+          prune: false
         syncOptions:
           - FailOnSharedResource=true
           - CreateNamespace=true
