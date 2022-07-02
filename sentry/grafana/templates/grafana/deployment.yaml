@@ -1,0 +1,57 @@
+{{- $name := include "grafana.name" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "grafana.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.grafana.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "grafana.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.grafana.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "grafana.selectorLabels" . | nindent 8 }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.grafana.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.grafana.securityContext | nindent 12 }}
+          image: "{{ .Values.grafana.image.name }}:{{ .Values.grafana.image.version }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.grafana.resources | nindent 12 }}
+          env:
+            - name: GF_PATHS_CONFIG
+              value: /grafana/config/grafana.ini
+            - name: POSTGRES_HOST
+              value: {{ include "postgres.name" . }}
+            - name: TZ
+              value: America/New_York
+          volumeMounts:
+            - mountPath: /grafana/config
+              name: grafana-ini
+      volumes:
+        - name: grafana-ini
+          configMap:
+            name: {{ $name }}
