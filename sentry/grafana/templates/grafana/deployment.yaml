@@ -48,6 +48,16 @@ spec:
               value: {{ include "postgres.name" . }}
             - name: TZ
               value: America/New_York
+            - name: GITHUB_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-github-oauth
+                  key: clientSecret
+            - name: GITHUB_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-github-oauth
+                  key: clientID
           volumeMounts:
             - mountPath: /grafana/config
               name: grafana-ini
