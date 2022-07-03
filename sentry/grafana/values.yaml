@@ -1,5 +1,8 @@
 grafana:
   replicas: 2
+  image:
+    repository: ghcr.io/trialstudio/grafana
+    tag: 9.0.2-e4f2fe0
 
   plugins:
     - redis-datasource
@@ -8,6 +11,8 @@ grafana:
   grafana.ini:
     server:
       root_url: https://grafana-main.trial.studio/
+    paths:
+      plugins: /home/grafana/plugins
     analytics:
       check_for_updates: true
       check_for_plugin_updates: true
