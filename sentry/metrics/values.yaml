@@ -15,3 +15,7 @@ kube-prometheus-stack:
   grafana:
     enabled: false
     forceDeployDashboards: true
+    sidecar:
+      dashboards:
+        annotations:
+          grafana.trial.studio/dashboard-folder: kube-prometheus
