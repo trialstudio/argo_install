@@ -1,8 +1,9 @@
 grafana:
   replicas: 2
-  image:
-    repository: ghcr.io/trialstudio/grafana
-    tag: 9.0.2
+
+  plugins:
+    - redis-datasource
+    - redis-app
 
   grafana.ini:
     server:
@@ -18,6 +19,12 @@ grafana:
     users:
       allow_sign_up: false
       allow_org_create: false
+    database:
+      type: postgres
+      host: ${POSTGRES_HOST}:80
+      name: grafana
+      user: postgres
+      password: root
     auth.anonymous:
       enabled: false
     auth.github:
