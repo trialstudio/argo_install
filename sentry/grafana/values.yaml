@@ -6,7 +6,7 @@ grafana:
 
   grafana.ini:
     server:
-      root_url: root_url = https://grafana-main.trial.studio/
+      root_url: https://grafana-main.trial.studio/
     analytics:
       check_for_updates: true
       check_for_plugin_updates: true
