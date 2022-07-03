@@ -4,10 +4,6 @@ grafana:
     repository: ghcr.io/trialstudio/grafana
     tag: 9.0.2-e4f2fe0
 
-  plugins:
-    - redis-datasource
-    - redis-app
-
   grafana.ini:
     server:
       root_url: https://grafana-main.trial.studio/
