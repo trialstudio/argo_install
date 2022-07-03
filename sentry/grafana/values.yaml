@@ -100,7 +100,7 @@ grafana:
       providers:
         - name: 'default'
           orgId: 1
-          folder: ''
+          folder: 'mimir'
           type: file
           disableDeletion: false
           editable: true
