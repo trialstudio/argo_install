@@ -36,8 +36,6 @@ spec:
               value: root
             - name: POSTGRES_DB
               value: grafana
-            - name: GF_INSTALL_PLUGINS
-              value: "redis-datasource,redis-app,redis-explorer-app"
           resources:
             {{- toYaml .Values.postgres.resources | nindent 12 }}
           volumeMounts:
